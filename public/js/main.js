@@ -1,0 +1,24 @@
+import { initMenu, initNavGroups, initLinks, initHistory } from './navigation.js';
+import { initTooltips } from './tooltip.js';
+import { initScrollSpy } from './observers.js';
+import { initQuizzes } from './quiz.js';
+import { initSettings } from './settings.js';
+import { initKeyCues } from './key-cues.js';
+import { initCopy } from './copy.js';
+import { initVideoPlayers } from './video-player.js';
+import { initBook } from './book.js';
+import { initGraphs } from './graphs.js';
+
+initMenu();
+initNavGroups();
+initLinks();
+initHistory();
+initTooltips();
+initScrollSpy();
+initQuizzes();
+initSettings();
+initKeyCues();
+initCopy();
+initVideoPlayers();
+initBook();
+initGraphs();

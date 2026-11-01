@@ -1,0 +1,24 @@
+<%# Clip slot. .webm/.mp4 get the custom player (autoplays on scroll, speed, seek, floating view). %>
+<% const src = media.src || ''; const isVideo = /\.(mp4|webm)$/i.test(src); %>
+<figure class="topic-media">
+  <% if (isVideo) { %>
+    <div class="vp" data-vp>
+      <div class="vp-box">
+        <div class="vp-stage"><video muted loop playsinline preload="metadata"<% if (media.poster) { %> poster="<%= media.poster %>"<% } %> aria-label="<%= media.alt %>"><source src="<%= src %>"></video></div>
+        <div class="vp-controls">
+          <button class="vp-btn vp-play" type="button" aria-label="Play or pause"><svg class="i-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg><svg class="i-pause" viewBox="0 0 24 24"><path d="M7 5h4v14H7zM13 5h4v14h-4z"/></svg></button>
+          <input class="vp-seek" type="range" min="0" max="1000" value="0" aria-label="Timeline">
+          <div class="vp-speeds" role="group" aria-label="Playback speed">
+            <% [0.1, 0.25, 0.5, 1, 1.5, 2].forEach((s) => { %><button class="vp-speed<%= s === 1 ? ' is-active' : '' %>" type="button" data-speed="<%= s %>"><%= s %>x</button><% }) %>
+          </div>
+          <button class="vp-btn vp-full" type="button" aria-label="Expand video"><svg viewBox="0 0 24 24"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg></button>
+        </div>
+      </div>
+    </div>
+  <% } else if (src) { %>
+    <img src="<%= src %>" alt="<%= media.alt %>" loading="lazy">
+  <% } else { %>
+    <div class="media-placeholder" role="img" aria-label="Clip placeholder"><span class="media-symbol" aria-hidden="true">&#9654;</span><span>Clip coming soon</span></div>
+  <% } %>
+  <% if (media.caption) { %><figcaption><%= media.caption %></figcaption><% } %>
+</figure>

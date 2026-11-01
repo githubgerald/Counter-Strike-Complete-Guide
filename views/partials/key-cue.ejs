@@ -1,0 +1,13 @@
+<aside class="cue-column cue-column-<%= cue.side %>" aria-label="Movement input example">
+  <div class="key-cue" data-key-cue data-pause="<%= cue.pauseMs %>" data-steps="<%= JSON.stringify(cue.steps) %>">
+    <p class="cue-title"><%= cue.title %></p>
+    <div class="keyboard" aria-hidden="true">
+      <div class="key-row key-row-top"><kbd data-key="W">W</kbd></div>
+      <div class="key-row"><kbd data-key="A">A</kbd><kbd data-key="S">S</kbd><kbd data-key="D">D</kbd></div>
+      <div class="key-row key-row-bottom"><kbd data-key="CTRL">CTRL</kbd><kbd data-key="SPACE">SPACE</kbd></div>
+    </div>
+    <div class="mouse-cue"><span class="mouse-symbol" aria-hidden="true">⌖</span><span class="mouse-motion">•</span></div>
+    <p class="cue-hint"><%= cue.hint %></p>
+    <p class="cue-frame-label" aria-live="off"></p>
+  </div>
+</aside>

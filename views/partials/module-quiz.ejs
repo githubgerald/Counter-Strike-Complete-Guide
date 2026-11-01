@@ -1,0 +1,27 @@
+<%# One quiz per module: tick the techniques you tried (trust based), then answer the questions. %>
+<% const required = Math.min(category.checklistRequired || 5, category.checklist.length); %>
+<div class="practice" data-module="<%= category.id %>" data-required="<%= required %>">
+  <h3 class="practice-title">Try it yourself</h3>
+  <p class="practice-prompt"><%= site.checklistIntro %></p>
+  <ul class="checklist">
+    <% category.checklist.forEach((item) => { %><li><label class="check-item"><input type="checkbox"><span><%= item %></span></label></li><% }) %>
+  </ul>
+  <div class="quiz-actions">
+    <button class="btn practice-start" type="button" disabled>Start the quiz</button>
+    <span class="practice-count" aria-live="polite"></span>
+  </div>
+  <div class="quiz" hidden>
+    <p class="quiz-intro"><%= site.quizIntro %></p>
+    <% category.quiz.forEach((question, index) => { %>
+      <fieldset class="quiz-question" data-answer="<%= question.answer %>" data-explain="<%= question.explain %>">
+        <legend><%= index + 1 %>. <%= question.q %></legend>
+        <% question.options.forEach((option, oi) => { %>
+          <label class="quiz-option"><input type="radio" name="<%= category.id %>-<%= index %>" value="<%= oi %>"><span><%= option %></span></label>
+        <% }) %>
+        <p class="quiz-explain" hidden></p>
+      </fieldset>
+    <% }) %>
+    <div class="quiz-actions"><button class="btn quiz-check" type="button">Check answers</button><span class="quiz-result" aria-live="polite"></span></div>
+  </div>
+  <p class="practice-done" hidden><span class="done-mark">✓</span> Module completed. Saved on this device.</p>
+</div>

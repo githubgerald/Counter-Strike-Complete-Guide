@@ -1,0 +1,14 @@
+<%# One topic. `seen` makes each term underlined once in this subsection. %>
+<% const seen = new Set(); const r = (text) => rt(text, seen); %>
+<section class="topic-grid" data-topic-grid>
+  <% if (section.keyCue && section.keyCue.side === 'left') { %><%- include('key-cue', { cue: section.keyCue, section }) %><% } else { %><aside class="cue-column cue-empty" aria-hidden="true"></aside><% } %>
+  <article class="topic" id="<%= section.id %>">
+    <header class="topic-heading"><h3><%= section.title %></h3></header>
+    <div class="topic-copy">
+      <% section.body.forEach((block) => { %><%- include('block', { block, rt: r }) %><% }) %>
+    </div>
+    <% if (section.graph) { %><figure class="graph" data-graph="<%= JSON.stringify(section.graph) %>"><% if (section.graph.title) { %><figcaption class="graph-title"><%= section.graph.title %></figcaption><% } %><% if (section.graph.note) { %><figcaption class="graph-note"><%= section.graph.note %></figcaption><% } %></figure><% } %>
+    <% if (section.media) { %><%- include('media', { media: section.media }) %><% } %>
+  </article>
+  <% if (section.keyCue && section.keyCue.side === 'right') { %><%- include('key-cue', { cue: section.keyCue, section }) %><% } else { %><aside class="cue-column cue-empty" aria-hidden="true"></aside><% } %>
+</section>

@@ -1,0 +1,15 @@
+<section class="category sources-section" id="bibliography">
+  <header class="category-head">
+    <h2>Sources</h2>
+  </header>
+  <% bibliography.forEach((group) => { %>
+    <div class="source-group">
+      <h3><%= group.group %></h3>
+      <ul class="source-list">
+        <% group.items.forEach((item) => { %>
+          <li><a href="<%= item.url %>" target="_blank" rel="noopener noreferrer"><%= item.title %></a><span><%= item.note %></span></li>
+        <% }) %>
+      </ul>
+    </div>
+  <% }) %>
+</section>

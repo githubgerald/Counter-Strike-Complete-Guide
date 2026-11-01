@@ -1,0 +1,17 @@
+<section class="category sources-section" id="resources">
+  <header class="category-head">
+    <h2>Resources</h2>
+  </header>
+  <% resources.forEach((group) => { %>
+    <div class="source-group">
+      <h3><%= group.group %></h3>
+      <% if (group.items) { %><ul class="source-list"><% group.items.forEach((item) => { %>
+        <li><a href="<%= item.url %>" target="_blank" rel="noopener noreferrer"><%= item.title %></a><span><%= item.note %></span></li>
+      <% }) %></ul><% } %>
+      <% if (group.commands) { %><ul class="command-list"><% group.commands.forEach((item) => { %>
+        <li><span class="chip"><code><%= item.command %></code><button type="button" class="copy" data-copy="<%= item.command %>" aria-label="Copy command" title="Copy"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V6a2 2 0 0 1 2-2h9"/></svg></button></span><span><%= item.note %></span></li>
+      <% }) %></ul><% } %>
+      <% if (group.map_names) { %><div class="map-name-list"><% group.map_names.forEach((name) => { %><code><%= name %></code><% }) %></div><% } %>
+    </div>
+  <% }) %>
+</section>

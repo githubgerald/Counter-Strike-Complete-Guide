@@ -1,0 +1,22 @@
+<%# One module: heading, sections (grouped when the module has groups), special blocks, module quiz %>
+<section class="category" id="<%= category.id %>">
+  <header class="category-head">
+    <h2><%= category.title %></h2>
+    <p class="category-intro"><%= category.intro %></p>
+  </header>
+
+  <% if (category.groups) { %>
+    <% category.groups.forEach((group) => { const kids = category.sections.filter((s) => s.group === group.id); %>
+      <div class="route-group" id="group-<%= group.id %>">
+        <h3 class="group-title"><%= group.title %></h3>
+        <% if (kids.length === 0) { %><p class="empty-note">Routes will be added here.</p><% } %>
+        <% kids.forEach((section) => { %><%- include('section', { section }) %><% }) %>
+      </div>
+    <% }) %>
+  <% } else { %>
+    <% category.sections.forEach((section) => { %><%- include('section', { section }) %><% }) %>
+  <% } %>
+
+  <% if (category.kind === 'autoexec') { %><%- include('autoexec-boxes') %><% } %>
+  <% if (category.quiz) { %><%- include('module-quiz') %><% } %>
+</section>

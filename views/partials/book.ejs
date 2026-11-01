@@ -1,0 +1,23 @@
+<%# Dictionary: a round book button (top right) toggles the book. Pages are built by public/js/book.js %>
+<button id="open-dictionary" class="dict-fab" type="button" aria-label="Open or close the dictionary" aria-controls="book" aria-expanded="false" title="Dictionary">
+  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5.5A1.5 1.5 0 0 1 5.5 4H11v15H5.5A1.5 1.5 0 0 0 4 20.5zM20 5.5A1.5 1.5 0 0 0 18.5 4H13v15h5.5a1.5 1.5 0 0 1 1.5 1.5z"/></svg>
+</button>
+<aside id="book" class="book" hidden role="dialog" aria-label="Dictionary">
+  <div class="book-cover" id="book-cover">
+    <button id="book-close" class="icon-btn book-close" type="button" aria-label="Close dictionary"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"/></svg></button>
+    <p class="book-title">Dictionary</p>
+    <div class="book-page" id="book-page"></div>
+    <button id="book-prev" class="book-corner book-prev" type="button" aria-label="Previous page"></button>
+    <button id="book-next" class="book-corner book-next" type="button" aria-label="Next page"></button>
+    <p class="book-num" id="book-num"></p>
+  </div>
+  <div id="book-entries" hidden>
+    <% terms.forEach((t) => { %>
+      <article class="book-entry" data-term="<%= t.id %>">
+        <h4><%= t.term %></h4>
+        <p><%= t.full %></p>
+        <% if (t.section) { %><a class="dict-go" href="#<%= t.section %>">Go to section</a><% } %>
+      </article>
+    <% }) %>
+  </div>
+</aside>

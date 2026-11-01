@@ -1,0 +1,7 @@
+<% if (block.type === 'p') { %>
+  <p><%- rt(block.text) %></p>
+<% } else if (block.type === 'list') { %>
+  <ul><% block.items.forEach((item) => { %><li><%- rt(item) %></li><% }) %></ul>
+<% } else if (block.type === 'note') { %>
+  <p class="reading-note"><%- rt(block.text) %></p>
+<% } %>

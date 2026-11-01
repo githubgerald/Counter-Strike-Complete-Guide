@@ -1,0 +1,9 @@
+<%# Two editable copy boxes. Edits stay in the browser; nothing is sent to the server. %>
+<div class="cfg-pair">
+  <% [['minimal', 'Minimal autoexec (start here)', autoexec.minimal], ['full', 'Full example autoexec', autoexec.full]].forEach(([id, title, text]) => { %>
+    <div class="cfg-box">
+      <div class="cfg-head"><span><%= title %></span><button class="btn cfg-copy" type="button" data-copy-target="cfg-<%= id %>">Copy</button></div>
+      <textarea class="cfg-text" id="cfg-<%= id %>" spellcheck="false" wrap="off" aria-label="<%= title %>"><%= text %></textarea>
+    </div>
+  <% }) %>
+</div>

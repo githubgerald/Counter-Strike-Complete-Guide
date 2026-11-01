@@ -1,0 +1,42 @@
+<%# Fixed left navigation: history arrows, settings cog, module dropdowns %>
+<button id="menu-toggle" class="icon-btn menu-toggle" aria-label="Open navigation" aria-controls="sidebar" aria-expanded="false">
+  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+</button>
+<aside id="sidebar" aria-label="Guide navigation">
+  <div class="side-head">
+    <a class="brand" href="#top"><span class="brand-mark">CS2</span><span>Movement Guide</span></a>
+    <div class="side-tools">
+      <button id="nav-back" class="icon-btn" type="button" aria-label="Go back" title="Go back"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14.5 5 7.5 12l7 7"/></svg></button>
+      <button id="nav-forward" class="icon-btn" type="button" aria-label="Go forward" title="Go forward"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9.5 5 7 7-7 7"/></svg></button>
+      <span class="tool-spacer"></span>
+      <button id="open-settings" class="icon-btn" type="button" aria-label="Open settings" title="Settings">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3.2"/><path d="M19.4 13.5a7.7 7.7 0 0 0 0-3l1.9-1.5-1.9-3.3-2.3.9a7.6 7.6 0 0 0-2.6-1.5L14.1 2h-4.2l-.4 2.6a7.6 7.6 0 0 0-2.6 1.5l-2.3-.9-1.9 3.3L4.6 10.5a7.7 7.7 0 0 0 0 3l-1.9 1.5 1.9 3.3 2.3-.9a7.6 7.6 0 0 0 2.6 1.5l.4 2.6h4.2l.4-2.6a7.6 7.6 0 0 0 2.6-1.5l2.3.9 1.9-3.3Z"/></svg>
+      </button>
+    </div>
+  </div>
+  <nav class="nav-list" aria-label="Guide sections">
+    <% categories.forEach((category, index) => { %>
+      <% const hasKids = category.sections.length > 0; %>
+      <div class="nav-group<%= index === 0 || !hasKids ? '' : ' is-collapsed' %>">
+        <div class="nav-group-head">
+          <a class="nav-category" href="#<%= category.id %>"<% if (category.quiz) { %> data-module="<%= category.id %>"<% } %>><span><%= category.title %></span><span class="nav-check" aria-hidden="true"></span></a>
+          <% if (hasKids) { %><button class="nav-chevron" type="button" aria-label="Show or hide <%= category.title %> sections" aria-expanded="<%= index === 0 ? 'true' : 'false' %>"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="m4 6 4 4 4-4"/></svg></button><% } %>
+        </div>
+        <% if (hasKids) { %>
+        <div class="nav-children"><div>
+          <% if (category.groups) { %>
+            <% category.groups.forEach((group) => { const kids = category.sections.filter((s) => s.group === group.id); %>
+              <p class="nav-group-label"><%= group.title %></p>
+              <% kids.forEach((s) => { %><a class="nav-link" href="#<%= s.id %>" data-section="<%= s.id %>"><span><%= s.title %></span></a><% }) %>
+            <% }) %>
+          <% } else { %>
+            <% category.sections.forEach((s) => { %><a class="nav-link" href="#<%= s.id %>" data-section="<%= s.id %>"><span><%= s.title %></span></a><% }) %>
+          <% } %>
+        </div></div>
+        <% } %>
+      </div>
+    <% }) %>
+    <a class="nav-category nav-extra" href="#resources"><span>Resources</span></a>
+    <a class="nav-category nav-extra" href="#bibliography"><span>Sources</span></a>
+  </nav>
+</aside>
