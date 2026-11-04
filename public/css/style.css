@@ -25,6 +25,7 @@
   --font: "Inter Variable", Inter, system-ui, -apple-system, "Segoe UI", sans-serif;
   --radius: 10px;
   --reading-width: 760px;
+  --leading: 1.72;
 }
 
 :root[data-theme="dark"] {
@@ -93,7 +94,7 @@ body {
   margin: 0;
   background: var(--bg);
   color: var(--text);
-  font: 400 var(--font-size)/1.72 var(--font);
+  font: 400 var(--font-size)/var(--leading) var(--font);
   transition: background .2s ease, color .2s ease;
 }
 body.modal-open { overflow: hidden; }
@@ -364,10 +365,9 @@ kbd.is-pressed {
 
 /* Media slots for user-supplied GIF, WebM or MP4 examples */
 .topic-media { margin: 24px 0 18px; }
-.topic-media img, .topic-media video, .media-placeholder {
+.topic-media img, .media-placeholder {
   display: block;
   width: 100%;
-  max-height: 420px;
   aspect-ratio: 16 / 9;
   object-fit: contain;
   background: #15171a;
@@ -594,7 +594,7 @@ kbd.is-pressed {
   .modal-body { padding: 25px 18px; }
   .setting-row { align-items: flex-start; flex-direction: column; gap: 9px; }
   .setting-row select, .setting-row input[type="text"] { width: 100%; }
-  .topic-media img, .topic-media video, .media-placeholder { aspect-ratio: 16 / 10; }
+  .topic-media img, .media-placeholder { aspect-ratio: 16 / 10; }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -602,6 +602,7 @@ kbd.is-pressed {
 }
 
 /* ===== v2 additions ===== */
+/* Settings cog is larger */
 
 /* Sidebar: module rows, group labels, no footer */
 .nav-category { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
@@ -609,7 +610,7 @@ kbd.is-pressed {
 .nav-extra { margin-top: 13px; }
 .nav-group-label { margin: 12px 0 3px 12px; color: var(--side-muted); font-size: .68rem; font-weight: 700; letter-spacing: .09em; text-transform: uppercase; }
 
-/* Group headings */
+/* Hero hint and group headings */
 .route-group { margin: 0 0 44px; }
 .group-title { max-width: var(--reading-width); margin: 36px auto 4px; font-size: 1.7rem; color: var(--accent); }
 .empty-note { max-width: var(--reading-width); margin: 0 auto 20px; color: var(--muted); font-size: .9rem; }
@@ -658,6 +659,7 @@ kbd.is-pressed {
 .map-name-list { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 14px; }
 .map-name-list code { padding: 2px 8px; background: var(--surface-soft); border-radius: 6px; font-size: .76rem; }
 
+<<<<<<< Updated upstream
 /* Clip player */
 .vp { width: 100%; }
 .vp-box { background: #000; border-radius: 10px; overflow: hidden; }
@@ -678,6 +680,9 @@ kbd.is-pressed {
 .vp-backdrop { position: fixed; inset: 0; z-index: 55; background: rgba(0, 0, 0, .45); }
 .vp.is-float .vp-box { position: fixed; top: 50%; left: 50%; z-index: 60; width: min(1100px, 94vw); transform: translate(-50%, -50%); box-shadow: 0 20px 60px rgba(0, 0, 0, .45); }
 @media (max-width: 640px) { .vp-speeds { display: none; } }
+=======
+
+>>>>>>> Stashed changes
 
 /* ===== v3 fixes ===== */
 /* Module titles in CS2 orange; no kicker text */
@@ -689,7 +694,6 @@ kbd.is-pressed {
 
 /* Clip slots: always 16:9, video fills the whole frame */
 .media-placeholder { width: 100%; height: auto; min-height: 0; aspect-ratio: 16 / 9; }
-.vp-stage video { object-fit: cover; }
 
 /* Autoexec boxes: wider, taller, copy button flush and square at the far right */
 .cfg-pair { max-width: 1340px; }
@@ -752,3 +756,90 @@ kbd.is-pressed {
 .book-prev { left: 0; border-bottom-left-radius: 6px; clip-path: polygon(0 0, 100% 100%, 0 100%); background: linear-gradient(45deg, color-mix(in srgb, var(--muted) 52%, var(--surface)), color-mix(in srgb, var(--muted) 22%, var(--surface))); }
 .book-corner:hover, .book-corner:focus-visible { width: 68px; height: 68px; filter: brightness(1.08); outline: none; }
 @media (max-width: 640px) { .book { right: 3vw; } .dict-fab { right: 3vw; } }
+
+/* ============================================================================
+   CLIP PLAYER
+   Frame: a 16:9 stage (a 1920x1080 clip fits it exactly, with no crop and no gap)
+   with the controls in a bar directly underneath.
+   Change --vp-radius to make the corners rounder or sharper.
+   ============================================================================ */
+:root { --vp-radius: 6px; }
+
+/* Clip slots and still images use the same corner radius and have no height cap */
+.topic-media img, .media-placeholder { max-height: none; border-radius: var(--vp-radius); }
+
+/* ---- Player in the page ---- */
+.vp { width: 100%; }
+.vp-box { overflow: hidden; background: #000; border-radius: var(--vp-radius) var(--vp-radius) 0 0; } /* top corners round, bottom corners flat */
+.vp-stage { position: relative; width: 100%; aspect-ratio: 16 / 9; background: #000; }
+.vp-stage video { position: absolute; inset: 0; display: block; width: 100%; height: 100%; object-fit: contain; background: #000; cursor: pointer; }
+
+/* ---- Controls bar ---- */
+.vp-controls { display: flex; align-items: center; gap: 10px; height: 48px; padding: 0 10px; color: #eee; background: #141414; }
+.vp-btn { display: inline-grid; flex: none; place-items: center; width: 32px; height: 32px; padding: 0; color: inherit; background: transparent; border: 0; border-radius: 6px; cursor: pointer; }
+.vp-btn svg { width: 18px; height: 18px; fill: currentColor; stroke: none; }
+.vp-full svg { fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.vp-btn:hover, .vp-btn:focus-visible { color: var(--accent); background: rgba(255, 255, 255, .08); outline: none; }
+.vp .i-pause, .vp .i-play { display: none; }
+.vp:not(.is-playing) .i-play { display: block; }
+.vp.is-playing .i-pause { display: block; }
+.vp-seek { flex: 1; min-width: 60px; accent-color: var(--accent); }
+.vp-speeds { display: flex; flex: none; gap: 2px; }
+.vp-speed { min-width: 38px; padding: 4px 5px; color: #bbb; font-size: .7rem; background: transparent; border: 0; border-radius: 5px; cursor: pointer; }
+.vp-speed:hover { color: #fff; }
+.vp-speed.is-active { color: #111; background: var(--accent); }
+
+/* ---- Floating (expanded) view: centred, dims the page, always 16:9 ----
+   Width is the smallest of: the screen width, 1200px, or what the screen height
+   allows (stage height = screen height minus 120px for margins and controls). */
+.vp-overlay { position: fixed; inset: 0; z-index: 70; display: flex; align-items: center; justify-content: center; padding: 16px; background: rgba(0, 0, 0, .45); }
+.vp-overlay[hidden] { display: none; }
+.vp-overlay .vp-box { flex: none; width: min(100%, 1200px, calc((100vh - 120px) * 16 / 9)); }
+
+@media (max-width: 640px) {
+  .vp .vp-speeds { display: none; }
+  .vp-overlay .vp-speeds { display: flex; }
+  .vp-overlay .vp-speed { min-width: 30px; padding: 4px 3px; }
+}
+
+/* Chart title (top middle of the chart) */
+.g-title { fill: var(--text); font-size: 15px; font-weight: 700; }
+
+/* ===== v4: settings that change the whole page ===== */
+:root[data-spacing="compact"] { --leading: 1.5; }
+:root[data-spacing="relaxed"] { --leading: 1.95; }
+:root[data-width="narrow"] { --reading-width: 660px; }
+:root[data-width="wide"] { --reading-width: 900px; }
+:root[data-contrast="high"] { --text: #000; --muted: #26262a; --subtle: #45454b; --line: #6b6b72; }
+:root[data-theme="dark"][data-contrast="high"] { --text: #fff; --muted: #e6e6e6; --subtle: #c8c8c8; --line: #a0a0a8; }
+:root[data-motion="reduce"] { scroll-behavior: auto; }
+:root[data-motion="reduce"] *, :root[data-motion="reduce"] *::before, :root[data-motion="reduce"] *::after { animation: none !important; transition: none !important; }
+
+/* ===== v4: account, friends and about ===== */
+.muted { color: var(--muted); font-size: .8em; }
+.settings-subhead { margin: 26px 0 8px; color: var(--muted); font-size: .74rem; font-weight: 700; letter-spacing: .09em; text-transform: uppercase; }
+.segmented { display: flex; flex-wrap: wrap; gap: 4px; width: fit-content; max-width: 100%; margin: 0 0 18px; padding: 3px; background: var(--surface-soft); border-radius: 9px; }
+.segmented button { padding: 7px 14px; color: var(--muted); font: inherit; font-size: .8rem; background: transparent; border: 0; border-radius: 7px; cursor: pointer; }
+.segmented button:hover { color: var(--text); }
+.segmented button.is-active { color: var(--text); background: var(--surface); box-shadow: 0 0 0 1px var(--line); }
+.auth-form { display: grid; gap: 14px; max-width: 380px; margin: 0 0 20px; }
+.auth-form[hidden], .recovery-box[hidden] { display: none; }
+.auth-inline { grid-template-columns: 1fr auto; align-items: end; max-width: none; }
+.field { display: grid; gap: 5px; font-size: .8rem; font-weight: 600; }
+.field input { padding: 9px 11px; color: var(--text); font: inherit; font-size: .9rem; font-weight: 400; background: var(--surface); border: 1px solid var(--line); border-radius: 8px; }
+.field input:focus-visible { border-color: var(--accent); outline: 2px solid var(--accent-soft); }
+.field small, .field-note { margin: 0; color: var(--muted); font-size: .74rem; font-weight: 400; line-height: 1.5; }
+.hp { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
+.btn-primary { color: #1b1b1d; font-weight: 600; background: var(--accent); border-color: var(--accent); }
+.btn-primary:hover:not(:disabled) { filter: brightness(1.07); background: var(--accent); }
+.btn-danger { color: #fff; background: #b3261e; border-color: #b3261e; }
+.btn-danger:hover:not(:disabled) { filter: brightness(1.1); background: #b3261e; }
+.recovery-box { margin: 0 0 18px; padding: 18px; background: var(--surface-soft); border: 1px solid var(--line); border-radius: 10px; }
+.recovery-box h3 { margin: 0 0 6px; font-size: 1.05rem; }
+.recovery-box p { margin: 0; font-size: .82rem; color: var(--muted); }
+.recovery-code { margin: 12px 0 !important; padding: 12px; color: var(--text) !important; font: 600 1.05rem/1.4 ui-monospace, Menlo, Consolas, monospace !important; letter-spacing: .06em; text-align: center; word-break: break-all; background: var(--surface); border-radius: 8px; user-select: all; }
+.people-list { display: grid; gap: 8px; margin: 0 0 14px; padding: 0; list-style: none; }
+.people-list li { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 10px 12px; background: var(--surface-soft); border-radius: 9px; }
+.people-list li > div:first-child { display: grid; gap: 1px; min-width: 0; }
+.people-list span { color: var(--muted); font-size: .76rem; }
+.people-list .people-empty { display: block; padding: 2px 0; color: var(--muted); font-size: .8rem; background: transparent; }

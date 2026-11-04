@@ -1,5 +1,7 @@
+import { setting, reducedMotion, SETTINGS_EVENT } from './prefs.js';
 // Animated keyboard hints. The steps (keys, mouse, ms, label) come from content/animations.js.
-const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+const animated = () => setting('cues') !== 'still' && !reducedMotion();
 
 function readSteps(element) {
   try {
@@ -20,6 +22,7 @@ function run(element, steps, pause) {
   const next = () => {
     window.clearTimeout(state.timer);
     if (!state.visible || document.hidden) return;
+    if (!animated()) { state.index = 0; paint(element, steps[0]); return; } // Still: show the first step only
     const step = steps[state.index];
     paint(element, step);
     const last = state.index === steps.length - 1;
@@ -34,6 +37,7 @@ function run(element, steps, pause) {
       if (!state.visible) window.clearTimeout(state.timer);
     });
   }, { rootMargin: '120px 0px', threshold: 0.05 }).observe(element);
+  document.addEventListener(SETTINGS_EVENT, () => { state.index = 0; next(); });
 }
 
 export function initKeyCues() {
@@ -41,6 +45,6 @@ export function initKeyCues() {
     const steps = readSteps(element);
     if (!steps.length) return;
     paint(element, steps[0]);
-    if (!reducedMotion && 'IntersectionObserver' in window) run(element, steps, Number(element.dataset.pause) || 0);
+    if ('IntersectionObserver' in window) run(element, steps, Number(element.dataset.pause) || 0);
   });
 }

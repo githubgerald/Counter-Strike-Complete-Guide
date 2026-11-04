@@ -45,14 +45,21 @@ module.exports = {
       step(['A'], 90, 'Tap A'),                 // the counter-strafe: a very short tap
       step([], 700, 'Stopped. Shoot now'),
     ],
-    // Chart: speed over time. Values are illustrative: a tap stops you in about
-    // 0.1 s, letting go of the key takes about 0.4 s.
+    // ------------------------------------------------------------------
+    // CHART under the text. Each line is a list of [time, speed] points joined
+    // by STRAIGHT lines. Time is in milliseconds, speed is in units per second.
+    //   Slow line:  starts at speed 250 and reaches 0 at 400 ms.
+    //   Quick line: starts at speed 250 and reaches 0 at 100 ms.
+    // Change a number to move that point. Add more points for a bend.
+    // ------------------------------------------------------------------
     graph: {
-      type: 'lines', title: 'Stopping from a run', xLabel: 'Time (ms)', yLabel: 'Speed',
-      note: 'Illustration of the idea, not exact numbers.',
+      type: 'lines',
+      title: 'Stopping from a run',
+      xLabel: 'Time',
+      yLabel: 'Speed',
       lines: [
-        { label: 'Let go of D',   points: [[0, 250], [60, 215], [120, 180], [180, 145], [240, 105], [300, 70], [360, 35], [420, 8], [450, 0]] },
-        { label: 'Tap A (counter-strafe)', points: [[0, 250], [30, 190], [60, 110], [90, 40], [110, 0], [450, 0]] },
+        { label: 'No counter strafe', points: [[0, 250], [400, 0]] },
+        { label: 'Counter strafe',    points: [[0, 250], [100, 0]] },
       ],
     },
   },

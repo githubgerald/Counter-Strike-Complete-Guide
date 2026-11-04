@@ -1,9 +1,14 @@
+<%# Settings window: tabs on the left. Every control is wired in public/js/settings.js and public/js/account.js %>
 <div id="settings" class="modal" hidden>
   <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="settings-title" tabindex="-1">
     <aside class="modal-nav">
       <p class="modal-heading" id="settings-title">Settings</p>
       <button class="modal-tab is-active" type="button" data-tab="general">General</button>
+      <button class="modal-tab" type="button" data-tab="display">Display</button>
+      <button class="modal-tab" type="button" data-tab="performance">Performance</button>
       <button class="modal-tab" type="button" data-tab="account">Account</button>
+      <button class="modal-tab" type="button" data-tab="friends">Friends</button>
+      <button class="modal-tab" type="button" data-tab="about">About</button>
     </aside>
 
     <div class="modal-body">
@@ -11,55 +16,204 @@
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"/></svg>
       </button>
 
+      <%# ---------------- GENERAL ---------------- %>
       <section class="settings-panel" data-panel="general">
         <h2>General</h2>
-        <p class="settings-lead">Control how the guide looks and works.</p>
-
+        <p class="settings-lead">Choose how the guide behaves.</p>
         <div class="setting-row">
-          <div><h3>Appearance</h3><p>Choose a light or dark reading theme.</p></div>
-          <select id="theme-select" aria-label="Appearance">
-            <option value="system">System</option><option value="light">Light</option><option value="dark">Dark</option>
-          </select>
+          <div><h3>Appearance</h3><p>Light, dark, or match your device.</p></div>
+          <select data-setting="theme" aria-label="Appearance"><option value="system">System</option><option value="light">Light</option><option value="dark">Dark</option></select>
         </div>
         <div class="setting-row">
-          <div><h3>Guide mode</h3><p>Guided includes the try-it checklists and quizzes. Reference keeps the reading view clear.</p></div>
-          <select id="mode-select" aria-label="Guide mode">
-            <option value="guided">Guided</option><option value="reference">Reference</option>
-          </select>
-        </div>
-        <div class="setting-row">
-          <div><h3>Reading size</h3><p>Adjust the main text size.</p></div>
-          <select id="size-select" aria-label="Reading size">
-            <option value="small">Small</option><option value="medium">Medium</option><option value="large">Large</option>
-          </select>
+          <div><h3>Guide mode</h3><p>Guided shows the try-it checklists and quizzes. Reference hides them for a clean reading view.</p></div>
+          <select data-setting="mode" aria-label="Guide mode"><option value="guided">Guided</option><option value="reference">Reference</option></select>
         </div>
         <div class="setting-row setting-row-stack">
-          <div><h3>Cookies and local storage</h3><p>This guide does not set cookies or use an analytics tracker. Your theme, local profile and section progress are stored in this browser’s local storage and are not sent to an account.</p></div>
+          <div><h3>Cookies and local storage</h3><p>Without an account this site sets no cookies. Your settings and progress stay in this browser's local storage. If you sign in, one strictly necessary session cookie keeps you signed in. There are no ads or trackers.</p></div>
           <button id="clear-data" class="btn btn-subtle" type="button">Clear local data</button>
         </div>
         <div class="setting-row">
-          <div><h3>Reset progress</h3><p>Clear completed modules but keep your appearance and profile settings.</p></div>
+          <div><h3>Reset progress</h3><p>Marks every module as not completed. If you are signed in, this clears your saved progress too.</p></div>
           <button id="reset-progress" class="btn btn-subtle" type="button">Reset progress</button>
         </div>
       </section>
 
+      <%# ---------------- DISPLAY ---------------- %>
+      <section class="settings-panel" data-panel="display" hidden>
+        <h2>Display</h2>
+        <p class="settings-lead">Make the text comfortable to read.</p>
+        <div class="setting-row">
+          <div><h3>Text size</h3><p>Changes the size of all text.</p></div>
+          <select data-setting="size" aria-label="Text size"><option value="small">Small</option><option value="medium">Medium</option><option value="large">Large</option></select>
+        </div>
+        <div class="setting-row">
+          <div><h3>Line spacing</h3><p>The space between lines of text.</p></div>
+          <select data-setting="spacing" aria-label="Line spacing"><option value="compact">Compact</option><option value="normal">Normal</option><option value="relaxed">Relaxed</option></select>
+        </div>
+        <div class="setting-row">
+          <div><h3>Content width</h3><p>How wide the reading column is on large screens.</p></div>
+          <select data-setting="width" aria-label="Content width"><option value="narrow">Narrow</option><option value="standard">Standard</option><option value="wide">Wide</option></select>
+        </div>
+        <div class="setting-row">
+          <div><h3>Contrast</h3><p>High contrast makes text and borders stronger.</p></div>
+          <select data-setting="contrast" aria-label="Contrast"><option value="standard">Standard</option><option value="high">High</option></select>
+        </div>
+      </section>
+
+      <%# ---------------- PERFORMANCE ---------------- %>
+      <section class="settings-panel" data-panel="performance" hidden>
+        <h2>Performance</h2>
+        <p class="settings-lead">Reduce motion, data use and battery use.</p>
+        <div class="setting-row">
+          <div><h3>Reduce motion</h3><p>Turns off page transitions, smooth scrolling and drawing animations. "System" follows your device setting.</p></div>
+          <select data-setting="motion" aria-label="Reduce motion"><option value="system">Follow my device</option><option value="reduce">Always reduce</option></select>
+        </div>
+        <div class="setting-row">
+          <div><h3>Key animations</h3><p>The moving keyboard beside each technique. "Still" shows the first step only.</p></div>
+          <select data-setting="cues" aria-label="Key animations"><option value="animated">Animated</option><option value="still">Still</option></select>
+        </div>
+        <div class="setting-row">
+          <div><h3>Autoplay clips</h3><p>Clips start when they scroll into view. Off means you press play.</p></div>
+          <select data-setting="autoplay" aria-label="Autoplay clips"><option value="on">On</option><option value="off">Off</option></select>
+        </div>
+        <div class="setting-row">
+          <div><h3>Data saver</h3><p>Stops clips from loading until you press play, and turns autoplay off.</p></div>
+          <select data-setting="saver" aria-label="Data saver"><option value="off">Off</option><option value="on">On</option></select>
+        </div>
+      </section>
+
+      <%# ---------------- ACCOUNT ---------------- %>
       <section class="settings-panel" data-panel="account" hidden>
         <h2>Account</h2>
-        <p class="settings-lead">This project has no online sign-in. Your profile is local to this browser.</p>
-        <div class="setting-row">
-          <div><h3>Display name</h3><p>Optional label stored on this device only.</p></div>
-          <input id="name-input" type="text" maxlength="30" autocomplete="off" placeholder="Display name">
+
+        <div id="account-out">
+          <p class="settings-lead">Optional. An account saves your progress online and lets you add friends. The whole guide works without one.</p>
+          <div class="segmented" role="group" aria-label="Account actions">
+            <button type="button" class="is-active" data-auth-tab="login">Sign in</button>
+            <button type="button" data-auth-tab="signup">Create account</button>
+            <button type="button" data-auth-tab="recover">Forgot password</button>
+          </div>
+
+          <form id="login-form" class="auth-form" data-auth-panel="login" novalidate>
+            <label class="field"><span>Username</span><input name="username" type="text" autocomplete="username" maxlength="20" autocapitalize="none" spellcheck="false" required></label>
+            <label class="field"><span>Password</span><input name="password" type="password" autocomplete="current-password" maxlength="128" required></label>
+            <button class="btn btn-primary" type="submit">Sign in</button>
+          </form>
+
+          <form id="signup-form" class="auth-form" data-auth-panel="signup" hidden novalidate>
+            <label class="field"><span>Username</span><input name="username" type="text" autocomplete="username" maxlength="20" autocapitalize="none" spellcheck="false" required><small>3 to 20 characters: letters, numbers, - and _. Friends see this name.</small></label>
+            <label class="field"><span>Password</span><input name="password" type="password" autocomplete="new-password" maxlength="128" required><small>At least 12 characters. A few random words works well.</small></label>
+            <label class="field"><span>Confirm password</span><input name="confirm" type="password" autocomplete="new-password" maxlength="128" required></label>
+            <input class="hp" name="website" type="text" tabindex="-1" autocomplete="off" aria-hidden="true">
+            <button class="btn btn-primary" type="submit">Create account</button>
+          </form>
+
+          <form id="recover-form" class="auth-form" data-auth-panel="recover" hidden novalidate>
+            <p class="field-note">Use the recovery code you saved when you created your account.</p>
+            <label class="field"><span>Username</span><input name="username" type="text" autocomplete="username" maxlength="20" autocapitalize="none" spellcheck="false" required></label>
+            <label class="field"><span>Recovery code</span><input name="code" type="text" autocomplete="off" maxlength="40" autocapitalize="characters" spellcheck="false" required></label>
+            <label class="field"><span>New password</span><input name="password" type="password" autocomplete="new-password" maxlength="128" required></label>
+            <button class="btn btn-primary" type="submit">Reset password</button>
+          </form>
         </div>
+
+        <div id="recovery-box" class="recovery-box" hidden>
+          <h3>Save your recovery code</h3>
+          <p>This is the only way to reset a forgotten password. It is shown once, so store it somewhere safe, such as a password manager.</p>
+          <p class="recovery-code" id="recovery-code"></p>
+          <div class="button-pair">
+            <button id="recovery-copy" class="btn btn-subtle" type="button">Copy code</button>
+            <button id="recovery-done" class="btn btn-primary" type="button">I have saved it</button>
+          </div>
+        </div>
+
+        <div id="account-in" hidden>
+          <div class="setting-row">
+            <div><h3 id="acc-name"></h3><p id="acc-since"></p></div>
+            <button id="logout-btn" class="btn btn-subtle" type="button">Sign out</button>
+          </div>
+          <div class="setting-row">
+            <div><h3>Progress</h3><p><span id="progress-count">0</span> of <%= totalModules %> modules completed. Saved to your account.</p></div>
+          </div>
+          <div class="setting-row">
+            <div><h3>Share progress with friends</h3><p>Friends can see how many modules you have completed. Off by default.</p></div>
+            <select id="share-select" aria-label="Share progress with friends"><option value="off">Off</option><option value="on">On</option></select>
+          </div>
+
+          <h3 class="settings-subhead">Security</h3>
+          <form id="password-form" class="auth-form" novalidate>
+            <label class="field"><span>Current password</span><input name="current" type="password" autocomplete="current-password" maxlength="128" required></label>
+            <label class="field"><span>New password</span><input name="next" type="password" autocomplete="new-password" maxlength="128" required></label>
+            <label class="field"><span>Confirm new password</span><input name="confirm" type="password" autocomplete="new-password" maxlength="128" required></label>
+            <button class="btn btn-subtle" type="submit">Change password</button>
+          </form>
+          <div class="setting-row">
+            <div><h3>Sign out everywhere</h3><p>Ends every session on every device, including this one.</p></div>
+            <button id="logout-all" class="btn btn-subtle" type="button">Sign out everywhere</button>
+          </div>
+          <div class="setting-row">
+            <div><h3>Download my data</h3><p>A copy of everything stored for your account.</p></div>
+            <button id="export-account" class="btn btn-subtle" type="button">Download</button>
+          </div>
+
+          <h3 class="settings-subhead">Delete account</h3>
+          <form id="delete-form" class="auth-form" novalidate>
+            <p class="field-note">This permanently removes your account, progress and friends. It cannot be undone.</p>
+            <label class="field"><span>Password</span><input name="password" type="password" autocomplete="current-password" maxlength="128" required></label>
+            <button class="btn btn-danger" type="submit">Delete my account</button>
+          </form>
+        </div>
+
+        <h3 class="settings-subhead">Progress backup on this device</h3>
         <div class="setting-row setting-row-stack">
-          <div><h3>Progress backup</h3><p>Export your completed sections to a JSON file, or import a backup from another device.</p></div>
+          <div><p>Export your completed modules to a file, or import a backup from another device.</p></div>
           <div class="button-pair">
             <button id="export-progress" class="btn btn-subtle" type="button">Export</button>
             <button id="import-progress" class="btn btn-subtle" type="button">Import</button>
             <input id="import-file" type="file" accept="application/json,.json" hidden>
           </div>
         </div>
-        <p id="settings-message" class="settings-message" aria-live="polite"></p>
       </section>
+
+      <%# ---------------- FRIENDS ---------------- %>
+      <section class="settings-panel" data-panel="friends" hidden>
+        <h2>Friends</h2>
+        <p id="friends-out" class="settings-lead">Sign in from the Account tab to add friends and see their progress.</p>
+        <div id="friends-in" hidden>
+          <form id="friend-form" class="auth-form auth-inline" novalidate>
+            <label class="field"><span>Add a friend by username</span><input name="username" type="text" maxlength="20" autocomplete="off" autocapitalize="none" spellcheck="false" required></label>
+            <button class="btn btn-primary" type="submit">Send request</button>
+          </form>
+          <h3 class="settings-subhead">Requests for you</h3>
+          <ul id="friends-incoming" class="people-list"></ul>
+          <h3 class="settings-subhead">Friends</h3>
+          <ul id="friends-list" class="people-list"></ul>
+          <h3 class="settings-subhead">Requests you sent</h3>
+          <ul id="friends-outgoing" class="people-list"></ul>
+        </div>
+      </section>
+
+      <%# ---------------- ABOUT ---------------- %>
+      <section class="settings-panel" data-panel="about" hidden>
+        <h2>About</h2>
+        <p class="settings-lead"><%= site.title %> <span class="muted">version <%= appVersion %></span></p>
+        <div class="setting-row setting-row-stack">
+          <div><h3>What this is</h3><p>A free guide to Counter-Strike 2 movement, made by a player for players. It is independent and is not made by or affiliated with Valve.</p></div>
+        </div>
+        <div class="setting-row">
+          <div><h3>Support the project</h3>
+            <% if (site.donateUrl) { %><p>If the guide helped you, you can support its upkeep.</p><% } else { %><p>Donations are not open yet. The guide stays free either way.</p><% } %></div>
+          <% if (site.donateUrl) { %><a class="btn btn-primary" href="<%= site.donateUrl %>" target="_blank" rel="noopener noreferrer">Donate</a><% } %>
+        </div>
+        <div class="setting-row setting-row-stack">
+          <div><h3>Privacy</h3><p>No analytics, no ads and no third-party requests. Without an account nothing leaves your browser. With an account the site stores your username, a scrypt hash of your password, your completed modules and your friend list. You can download or delete all of it in the Account tab.</p></div>
+        </div>
+        <div class="setting-row setting-row-stack">
+          <div><h3>Credits</h3><p>Definitions and history come from the sources listed at the bottom of the guide. Typeface: Inter, under the SIL Open Font License.</p></div>
+        </div>
+      </section>
+
+      <p id="settings-message" class="settings-message" aria-live="polite"></p>
     </div>
   </div>
 </div>

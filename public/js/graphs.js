@@ -1,3 +1,4 @@
+import { reducedMotion } from './prefs.js';
 // Draws the small charts defined in content/animations.js (type 'lines' or 'path').
 const NS = 'http://www.w3.org/2000/svg';
 const el = (name, attrs = {}, text) => {
@@ -18,19 +19,24 @@ function smooth(points) {
 }
 
 function drawLines(svg, g) {
-  const W = 600, H = 260, L = 52, R = 20, T = 18, B = 44;
+  const W = 600, H = 280, L = 56, R = 24, T = 44, B = 46;       // chart size and margins
   const maxX = Math.max(...g.lines.flatMap((l) => l.points.map((p) => p[0])));
   const maxY = Math.max(...g.lines.flatMap((l) => l.points.map((p) => p[1])));
   const x = (v) => L + (v / maxX) * (W - L - R);
   const y = (v) => H - B - (v / maxY) * (H - B - T);
   svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
+  // Title, top middle
+  svg.append(el('text', { x: W / 2, y: 22, class: 'g-title', 'text-anchor': 'middle' }, g.title || ''));
+  // Axes and their labels
   svg.append(el('line', { x1: L, y1: H - B, x2: W - R, y2: H - B, class: 'g-axis' }), el('line', { x1: L, y1: T, x2: L, y2: H - B, class: 'g-axis' }));
-  svg.append(el('text', { x: (L + W - R) / 2, y: H - 10, class: 'g-label', 'text-anchor': 'middle' }, g.xLabel || ''));
-  svg.append(el('text', { x: 14, y: (T + H - B) / 2, class: 'g-label', 'text-anchor': 'middle', transform: `rotate(-90 14 ${(T + H - B) / 2})` }, g.yLabel || ''));
+  svg.append(el('text', { x: (L + W - R) / 2, y: H - 12, class: 'g-label', 'text-anchor': 'middle' }, g.xLabel || ''));
+  svg.append(el('text', { x: 16, y: (T + H - B) / 2, class: 'g-label', 'text-anchor': 'middle', transform: `rotate(-90 16 ${(T + H - B) / 2})` }, g.yLabel || ''));
+  // One straight line per entry in `lines`, plus its label in the top-right corner
   g.lines.forEach((line, i) => {
-    const path = el('path', { d: smooth(line.points.map((p) => [x(p[0]), y(p[1])])), class: `g-line g-line-${i}` });
-    svg.append(path);
-    svg.append(el('rect', { x: W - R - 190, y: T + i * 20 - 9, width: 12, height: 4, class: `g-key g-key-${i}` }), el('text', { x: W - R - 172, y: T + i * 20, class: 'g-label' }, line.label));
+    const d = line.points.map((p, n) => `${n ? 'L' : 'M'}${x(p[0])},${y(p[1])}`).join(' ');
+    svg.append(el('path', { d, class: `g-line g-line-${i}` }));
+    svg.append(el('rect', { x: W - R - 150, y: T + 6 + i * 22, width: 14, height: 4, class: `g-key g-key-${i}` }));
+    svg.append(el('text', { x: W - R - 130, y: T + 12 + i * 22, class: 'g-label' }, line.label));
   });
 }
 
@@ -46,6 +52,7 @@ function drawPath(svg, g) {
 }
 
 function animate(svg) {
+  if (reducedMotion()) return;
   svg.querySelectorAll('.g-line').forEach((path) => {
     const len = path.getTotalLength();
     path.style.strokeDasharray = `${len}`;

@@ -1,6 +1,6 @@
+import { reducedMotion } from './prefs.js';
 // Dictionary book: toggled by the round button, opens from the right.
 // Pages are built to fit the book (no scrolling) and turn with a flipping leaf.
-const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 let book, cover, pageEl, numEl, prevBtn, nextBtn, fab, pages = [], current = 0, busy = false, lastSize = '';
 
 // Fill a container with the entries for one page
@@ -59,7 +59,7 @@ function snapshot(index) {
 function turn(direction) {
   const target = current + direction;
   if (busy || target < 0 || target >= pages.length) return;
-  if (reduced) { render(target); return; }
+  if (reducedMotion()) { render(target); return; }
   busy = true;
   const leaf = document.createElement('div');
   leaf.className = 'book-leaf';

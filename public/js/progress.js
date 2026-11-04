@@ -1,9 +1,13 @@
-// Saved progress: which modules are complete. Stored in localStorage on this device only.
+// Saved progress: which modules are complete. Stored in localStorage on this device,
+// and copied to the account when signed in (see account.js).
 const STORAGE_KEY = 'cs2guide.progress.v3';
+export const PROGRESS_EVENT = 'cs2guide:progress';
 
 function validModuleIds() {
   return new Set([...document.querySelectorAll('.practice[data-module]')].map((box) => box.dataset.module));
 }
+
+export function moduleIds() { return [...validModuleIds()]; }
 
 // Read progress and keep only valid entries (storage can be edited by the user)
 export function readProgress() {
@@ -28,11 +32,16 @@ export function paintProgress(progress = readProgress()) {
     const done = progress[box.dataset.module] === true;
     box.classList.toggle('is-complete', done);
     ['.practice-prompt', '.checklist', '.quiz-actions', '.quiz'].forEach((sel) => {
-      box.querySelectorAll(`:scope > ${sel}`).forEach((el) => { if (done) el.hidden = true; });
+      box.querySelectorAll(`:scope > ${sel}`).forEach((el) => {
+        if (done) el.hidden = true;
+        else if (sel === '.practice-prompt' || sel === '.checklist') el.hidden = false; // shown again after a reset
+      });
     });
     const note = box.querySelector('.practice-done');
     if (note) note.hidden = !done;
   });
+  const count = document.getElementById('progress-count');
+  if (count) count.textContent = Object.keys(progress).length;
 }
 
 export function markComplete(moduleId) {
@@ -41,11 +50,13 @@ export function markComplete(moduleId) {
   progress[moduleId] = true;
   const saved = writeProgress(progress);
   paintProgress(progress);
+  document.dispatchEvent(new CustomEvent(PROGRESS_EVENT));
   return saved;
 }
 
 export function resetProgress() {
   const saved = writeProgress({});
   paintProgress({});
+  document.dispatchEvent(new CustomEvent(PROGRESS_EVENT));
   return saved;
 }

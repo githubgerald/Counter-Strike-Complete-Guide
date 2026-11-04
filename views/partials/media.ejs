@@ -1,10 +1,14 @@
-<%# Clip slot. .webm/.mp4 get the custom player (autoplays on scroll, speed, seek, floating view). %>
-<% const src = media.src || ''; const isVideo = /\.(mp4|webm)$/i.test(src); %>
+<%# Clip slot. .mp4 and .webm get the custom player. Clips play muted, autoplay on scroll and loop. %>
+<% const src = media.src || ''; const ext = (src.split('.').pop() || '').toLowerCase(); const isVideo = ext === 'mp4' || ext === 'webm'; %>
 <figure class="topic-media">
   <% if (isVideo) { %>
     <div class="vp" data-vp>
       <div class="vp-box">
-        <div class="vp-stage"><video muted loop playsinline preload="metadata"<% if (media.poster) { %> poster="<%= media.poster %>"<% } %> aria-label="<%= media.alt %>"><source src="<%= src %>"></video></div>
+        <div class="vp-stage">
+          <video muted loop playsinline preload="auto" disablepictureinpicture<% if (media.poster) { %> poster="<%= media.poster %>"<% } %> aria-label="<%= media.alt %>">
+            <source src="<%= src %>" type="<%= ext === 'mp4' ? 'video/mp4' : 'video/webm' %>">
+          </video>
+        </div>
         <div class="vp-controls">
           <button class="vp-btn vp-play" type="button" aria-label="Play or pause"><svg class="i-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg><svg class="i-pause" viewBox="0 0 24 24"><path d="M7 5h4v14H7zM13 5h4v14h-4z"/></svg></button>
           <input class="vp-seek" type="range" min="0" max="1000" value="0" aria-label="Timeline">

@@ -7,6 +7,7 @@ import { initKeyCues } from './key-cues.js';
 import { initCopy } from './copy.js';
 import { initVideoPlayers } from './video-player.js';
 import { initBook } from './book.js';
+import { initAccount } from './account.js';
 import { initGraphs } from './graphs.js';
 
 initMenu();
@@ -22,3 +23,4 @@ initCopy();
 initVideoPlayers();
 initBook();
 initGraphs();
+initAccount();

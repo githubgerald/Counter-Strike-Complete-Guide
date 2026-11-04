@@ -1,4 +1,5 @@
 import { openBook } from './book.js';
+import { reducedMotion } from './prefs.js';
 const sidebar = document.getElementById('sidebar');
 const menuToggle = document.getElementById('menu-toggle');
 
@@ -69,9 +70,9 @@ export function initHistory() {
 
   window.addEventListener('popstate', (event) => {
     const state = event.state;
-    if (typeof state?.y === 'number') window.scrollTo({ top: state.y, behavior: 'smooth' });
+    if (typeof state?.y === 'number') window.scrollTo({ top: state.y, behavior: reducedMotion() ? 'auto' : 'smooth' });
     else if (location.hash) scrollToId(decodeURIComponent(location.hash.slice(1)));
-    else window.scrollTo({ top: 0, behavior: 'smooth' });
+    else window.scrollTo({ top: 0, behavior: reducedMotion() ? 'auto' : 'smooth' });
     closeMenu();
   });
 

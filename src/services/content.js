@@ -34,6 +34,7 @@ function validate(data) {
             if (s.media) for (const f of ['src', 'poster']) if (!isLocalMedia(s.media[f] || '')) throw new Error(`Section "${s.id}" media ${f} must be a local /media/ path`);
     }
   }
+  if (data.site.donateUrl && !/^https:\/\//.test(data.site.donateUrl)) throw new Error('site.donateUrl must start with https://');
   const termIds = new Set();
   (data.terms || []).forEach((t) => {
     if (!t.id || !t.term || !t.short || termIds.has(t.id)) throw new Error(`Invalid or duplicate term: ${t.id}`);

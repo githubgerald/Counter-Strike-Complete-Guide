@@ -1,17 +1,24 @@
 {
   "name": "cs2-movement-guide",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "private": true,
   "scripts": {
     "start": "node server.js",
     "dev": "node --watch server.js",
-    "validate": "node scripts/validate-content.js"
+    "validate": "node scripts/validate-content.js",
+    "test": "node scripts/test-api.js",
+    "audit": "npm audit --omit=dev"
   },
   "dependencies": {
     "@fontsource-variable/inter": "^5.1.0",
-    "ejs": "^3.1.10",
+    "better-sqlite3": "^12.11.1",
+    "compression": "^1.8.2",
+    "ejs": "^7.0.2",
     "express": "^4.21.0",
     "express-rate-limit": "^7.4.0",
     "helmet": "^8.0.0"
+  },
+  "engines": {
+    "node": ">=20.12"
   }
 }
