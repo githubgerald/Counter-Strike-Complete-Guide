@@ -27,7 +27,7 @@
       }
      ],
      "media": {
-      "src": "",
+      "src": "/media/1. Get Movement Hub.mp4",
       "poster": "",
       "alt": "Example clip: Get Movement Hub",
       "caption": ""
@@ -40,7 +40,7 @@
      "body": [
       {
        "type": "p",
-       "text": "Most players jump with the scroll wheel because it lets you repeat jump inputs quickly, which helps with [[bhop|bunny hops]] and tight jumps. Open the [[console|console]] (turn it on under Settings, Game, Enable Developer Console) and paste these two lines:"
+       "text": "Most players jump with the scroll wheel because it lets you repeat jump inputs quickly, which helps with [[bhop|bunny hops]] and tight jumps. Open the [[console|console]] (turn it on under Settings, Game, Enable Developer Console) and paste one of these two lines depending on which way you like more:"
       },
       {
        "type": "p",
@@ -52,7 +52,7 @@
       },
       {
        "type": "p",
-       "text": "You can also keep space and both scroll directions on jump in one line: `bind space +jump; bind mwheeldown +jump; bind mwheelup +jump`. Binds reset when you restart the game unless you save them in an [[autoexec|autoexec]], which has its own module below."
+       "text": "You can also keep space and both scroll directions on jump using one line: `bind space +jump; bind mwheeldown +jump; bind mwheelup +jump`. Binds reset when you restart the game unless you save them in an [[autoexec|autoexec]], which has its own module below, or run `host_writeconfig`."
       }
      ],
      "media": {
